@@ -12,6 +12,8 @@
 		11DC8D9A1EA0F3C00036F77E /* CachedRequester.h in Headers */ = {isa = PBXBuildFile; fileRef = 11DC8D8C1EA0F3BF0036F77E /* CachedRequester.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11DC8DA61EA0FB880036F77E /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11DC8DA41EA0FB880036F77E /* Nimble.framework */; };
 		11DC8DA71EA0FB880036F77E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11DC8DA51EA0FB880036F77E /* Quick.framework */; };
+		11DC8DA91EA1104A0036F77E /* Requester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC8DA81EA1104A0036F77E /* Requester.swift */; };
+		11DC8DAA1EA1104A0036F77E /* Requester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC8DA81EA1104A0036F77E /* Requester.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +35,7 @@
 		11DC8D991EA0F3C00036F77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11DC8DA41EA0FB880036F77E /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = "Carthage/Checkouts/Nimble/build/Debug-iphoneos/Nimble.framework"; sourceTree = "<group>"; };
 		11DC8DA51EA0FB880036F77E /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "Carthage/Checkouts/Quick/build/Debug-iphoneos/Quick.framework"; sourceTree = "<group>"; };
+		11DC8DA81EA1104A0036F77E /* Requester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requester.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +83,7 @@
 			children = (
 				11DC8D8C1EA0F3BF0036F77E /* CachedRequester.h */,
 				11DC8D8D1EA0F3BF0036F77E /* Info.plist */,
+				11DC8DA81EA1104A0036F77E /* Requester.swift */,
 			);
 			path = CachedRequester;
 			sourceTree = "<group>";
@@ -165,6 +169,7 @@
 					11DC8D881EA0F3BF0036F77E = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = 2CYX44K4NB;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					11DC8D911EA0F3C00036F77E = {
@@ -214,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11DC8DA91EA1104A0036F77E /* Requester.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11DC8DAA1EA1104A0036F77E /* Requester.swift in Sources */,
 				11DC8D981EA0F3C00036F77E /* CachedRequesterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,6 +347,7 @@
 		11DC8D9E1EA0F3C00036F77E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 2CYX44K4NB;
@@ -352,6 +360,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nozary.CachedRequester;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -359,6 +368,7 @@
 		11DC8D9F1EA0F3C00036F77E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 2CYX44K4NB;
@@ -378,6 +388,7 @@
 		11DC8DA11EA0F3C00036F77E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 2CYX44K4NB;
 				INFOPLIST_FILE = CachedRequesterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -390,6 +401,7 @@
 		11DC8DA21EA0F3C00036F77E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 2CYX44K4NB;
 				INFOPLIST_FILE = CachedRequesterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
