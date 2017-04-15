@@ -20,7 +20,7 @@ open class RequestHandle {
   
   /// If the same request is made several times we need a unique identifier
   /// to be able to cancel a specific one.
-  open let id: String
+  open let sessionId: String
   
   /// The handle to the sesison of the data task
   open let session: URLSessionTask
@@ -42,10 +42,10 @@ open class RequestHandle {
   
   // MARK: Initialization
   
-  init(id: String, session: URLSessionTask, progressHandler: @escaping Requester.ProgressHandler,
+  init(sessionId: String, session: URLSessionTask, progressHandler: @escaping Requester.ProgressHandler,
        completionHandler: @escaping Requester.CompletionHandler) {
     self.session = session
-    self.id = id
+    self.sessionId = sessionId
     self.progressHandler = progressHandler
     self.completionHandler = completionHandler
     self.status = .pending
@@ -183,8 +183,8 @@ open class Requester {
     -> RequestHandle {
       
       let dataTask = defaultSession.dataTask(with: url)
-      let id = self.sessionId(from: url.absoluteString)
-      let requestHandle = RequestHandle(id: id, session: dataTask, progressHandler: progressHandler,
+      let sessionId = self.sessionId(from: url.absoluteString)
+      let requestHandle = RequestHandle(sessionId: sessionId, session: dataTask, progressHandler: progressHandler,
                                         completionHandler: completionHandler)
       self.tasks.append(requestHandle)
       
