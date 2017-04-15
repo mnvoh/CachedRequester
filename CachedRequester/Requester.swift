@@ -222,7 +222,11 @@ open class Requester {
     
     let currentSize = requestHandle.data.count
     let progress = Double(currentSize) / Double(requestHandle.totalSize)
-    requestHandle.progressHandler(progress)
+    
+    // call the progress handler on the main queue
+    DispatchQueue.main.async {
+      requestHandle.progressHandler(progress)
+    }
     
   }
   
@@ -233,8 +237,11 @@ open class Requester {
       return
     }
     
-    requestHandle.progressHandler(1.0)
-    requestHandle.completionHandler(requestHandle.data, error)
+    // call the handlers on the main queue
+    DispatchQueue.main.async {
+      requestHandle.progressHandler(1.0)
+      requestHandle.completionHandler(requestHandle.data, error)
+    }
     requestHandle.status = .finished
     
   }
@@ -311,4 +318,3 @@ class RequesterURLSessionDataDelegate: NSObject, URLSessionDataDelegate {
   }
   
 }
-
