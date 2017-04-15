@@ -11,7 +11,7 @@ import Foundation
 
 // MARK: CacheItem
 
-class CacheItem {
+private class CacheItem {
   
   /// The key of the item
   let key: String
@@ -37,15 +37,15 @@ class CacheItem {
 
 /// An auto-purging in-memory cache. This class takes care of data caching
 /// and removes least used items if a set memory limit is reached.
-open class AutoPurgingCache {
+class AutoPurgingCache {
   
   // MARK: Properties
   
   /// The allowed size of this cache
-  public var memoryLimit: Int = 200 * 1024 * 1024 // 200 MiB
+  public var memoryLimit: Int
   
   /// The memory size to reach when purging least used data
-  public var memorySizeAfterPurge: Int = 150 * 1024 * 1024 // 150 MiB
+  public var memorySizeAfterPurge: Int
   
   
   /// The Cache
@@ -57,11 +57,11 @@ open class AutoPurgingCache {
   
   // MARK: Initialization
   
-  /// The shared instance of this class
-  public static let sharedInstance = AutoPurgingCache()
-  
   /// Constructor: Enforces Singleton
-  private init() {
+  init(memoryLimit: Int = 200 * 1024 * 1024, memorySizeAfterPurge: Int = 150 * 1024 * 1024) {
+    self.memoryLimit = memoryLimit
+    self.memorySizeAfterPurge = memorySizeAfterPurge
+    
     // In case we received a memory warning, we need to pruge the cache completely
     NotificationCenter.default.addObserver(
       self,
@@ -71,7 +71,7 @@ open class AutoPurgingCache {
     )
   }
   
-  
+  /// Deinitialize the class
   deinit {
     NotificationCenter.default.removeObserver(
       self,
@@ -87,7 +87,7 @@ open class AutoPurgingCache {
   ///
   /// - parameter key:              A unique key to identify this entry
   /// - parameter data:             The data to be cached
-  open func add(key: String, data: Data) {
+  public func add(key: String, data: Data) {
     
     let item = CacheItem(key: key, data: data, lastAccessed: Date().timeIntervalSince1970)
     cache[key] = item
@@ -103,7 +103,7 @@ open class AutoPurgingCache {
   /// - parameter key:            The key of the entry
   ///
   /// - returns:                  The data if available, `nil` otherwise
-  open func get(key: String) -> Data? {
+  public func get(key: String) -> Data? {
     
     guard let item = cache[key] else { return nil }
     
@@ -116,7 +116,7 @@ open class AutoPurgingCache {
   /// Removes a specific item from the cache
   /// 
   /// - parameter key:             The key of the cache item
-  open func remove(key: String) {
+  public func remove(key: String) {
     
     guard let item = cache[key] else { return }
     
@@ -128,7 +128,7 @@ open class AutoPurgingCache {
   
   /// Removes all items from the cache
   @objc
-  open func removeAll() {
+  public func removeAll() {
     
     cache.removeAll()
     cacheSize = 0
@@ -138,7 +138,7 @@ open class AutoPurgingCache {
   /// Checks the cache size and if it's bigger than `memorySizeAfterPurge`
   /// starts removing items from the cache until the cache size reaches 
   /// below that value.
-  open func purgeLeastUsed() {
+  public func purgeLeastUsed() {
     
     // We don't wanna purge anything if memory limit hasn't been reached
     if cacheSize < memoryLimit {

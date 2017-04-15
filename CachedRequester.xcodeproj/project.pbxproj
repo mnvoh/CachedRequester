@@ -132,6 +132,7 @@
 				11DC8D851EA0F3BF0036F77E /* Frameworks */,
 				11DC8D861EA0F3BF0036F77E /* Headers */,
 				11DC8D871EA0F3BF0036F77E /* Resources */,
+				11DC8DF51EA24E500036F77E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -217,6 +218,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		11DC8DF51EA24E500036F77E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\nERRORTAG=\"ERROR:\"\nfind \"${SRCROOT}/CachedRequester\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		11DC8D841EA0F3BF0036F77E /* Sources */ = {

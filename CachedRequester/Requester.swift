@@ -22,6 +22,9 @@ open class RequestHandle {
   /// to be able to cancel a specific one.
   open let sessionId: String
   
+  /// The id of the resource (could be its URI) so that we can use it to cache it
+  open let id: String
+  
   /// The handle to the sesison of the data task
   open let session: URLSessionTask
   
@@ -42,15 +45,18 @@ open class RequestHandle {
   
   // MARK: Initialization
   
-  init(sessionId: String, session: URLSessionTask, progressHandler: @escaping Requester.ProgressHandler,
+  init(sessionId: String, id: String, session: URLSessionTask, progressHandler: @escaping Requester.ProgressHandler,
        completionHandler: @escaping Requester.CompletionHandler) {
-    self.session = session
+    
     self.sessionId = sessionId
+    self.id = id
+    self.session = session
     self.progressHandler = progressHandler
     self.completionHandler = completionHandler
     self.status = .pending
     totalSize = 0
     data = Data()
+    
   }
   
   // MARK: Public Functions
@@ -91,12 +97,29 @@ open class Requester {
   /// Whether to auto start requests or not
   public var autostart: Bool
   
+  /// The maximum size of the in-memory cache
+  public var inMemoryCacheSizeLimit: Int {
+    didSet {
+      cache.memoryLimit = inMemoryCacheSizeLimit
+    }
+  }
+  
+  /// The maximum size of the in-memory cache after `inMemoryCacheSizeLimit` has been reached
+  /// and the least used cache items are purged
+  public var inMemoryCacheSizeLimitAfterPurge: Int {
+    didSet {
+      cache.memorySizeAfterPurge = inMemoryCacheSizeLimitAfterPurge
+    }
+  }
+  
   /// Creates a default `URLCache` with common usage parameter values.
   open static let defaultURLCache: URLCache = {
+    // Since we are using our own implementation of caching, we set this
+    // cache to zero
     return URLCache(
-      memoryCapacity: 20 * 1024 * 1024, // 20 MB
-      diskCapacity: 150 * 1024 * 1024,  // 150 MB
-      diskPath: "com.nozary.cachedrequester"
+      memoryCapacity: 0,
+      diskCapacity: 0,
+      diskPath: "defaultcache"
     )
   }()
   
@@ -149,6 +172,10 @@ open class Requester {
   /// The active tasks currently being handled by this class
   private var tasks: [RequestHandle]
   
+  /// The auto-purging in-memory cache
+  private let cache: AutoPurgingCache
+  
+  /// The delegate to handle URLSession
   private let sessionDelegate: RequesterURLSessionDataDelegate
   
   // MARK: Initialization
@@ -159,14 +186,23 @@ open class Requester {
   
   /// Initializes an instance of `Requester` with default configurations
   private init() {
+    
     tasks = [RequestHandle]()
     autostart = true
     sessionDelegate = RequesterURLSessionDataDelegate()
     defaultSession = URLSession(configuration: Requester.defaultURLSessionConfiguration, delegate: sessionDelegate,
                                 delegateQueue: nil)
+    
+    // cache must be initialized before `inMemoryCacheSizeLimit` and `inMemoryCacheSizeLimitAfterPurge`
+    cache = AutoPurgingCache()
+    
+    inMemoryCacheSizeLimit = 200 * 1024 * 1024 // 200 MiB
+    inMemoryCacheSizeLimitAfterPurge = 150 * 1024 * 1024 // 150 MiB
+    
     sessionDelegate.responseReceived = responseReceived
     sessionDelegate.dataReceived = dataReceived
     sessionDelegate.completionHandler = requestCompleted
+    
   }
   
   // MARK: Public Functions
@@ -178,14 +214,27 @@ open class Requester {
   /// - parameter completionHandler:    A closure that's called when the request is completed
   /// - parameter progressHandler:      A closrue that's called periodically to report the progress of the request
   ///
-  /// - returns:                        An instance of RequestHandle so that it can be canceled
+  /// - returns:                        An instance of RequestHandle so that it can be canceled, nil if
+  ///                                   the data is retrieved from cache.
   open func newTask(url: URL, completionHandler: @escaping CompletionHandler, progressHandler: @escaping ProgressHandler)
-    -> RequestHandle {
+    -> RequestHandle? {
+      
+      // If the data is cached, return it and don't make the request
+      if let cachedData = cache.get(key: url.absoluteString) {
+        progressHandler(1.0)
+        completionHandler(cachedData, nil)
+        return nil
+      }
       
       let dataTask = defaultSession.dataTask(with: url)
       let sessionId = self.sessionId(from: url.absoluteString)
-      let requestHandle = RequestHandle(sessionId: sessionId, session: dataTask, progressHandler: progressHandler,
-                                        completionHandler: completionHandler)
+      let requestHandle = RequestHandle(
+        sessionId: sessionId,
+        id: url.absoluteString,
+        session: dataTask,
+        progressHandler: progressHandler,
+        completionHandler: completionHandler
+      )
       self.tasks.append(requestHandle)
       
       if self.autostart {
@@ -240,7 +289,7 @@ open class Requester {
   }
   
   /// This function is called when the request is finished, either successfully, or it has failed.
-  /// 
+  ///
   /// - parameter dataTask:             The `URLSessionDataTask` of the request
   /// - parameter error:                In case the request has failed `error` is not nil and contains an error description
   open func requestCompleted(_ dataTask: URLSessionDataTask, _ error: Error?) {
@@ -256,6 +305,18 @@ open class Requester {
       requestHandle.completionHandler(requestHandle.data, error)
     }
     requestHandle.status = .finished
+    
+    // if there was no error, cache the data
+    if error == nil {
+      cache.add(key: requestHandle.id, data: requestHandle.data)
+    }
+    
+    for (index, item) in tasks.enumerated() {
+      if item.sessionId == requestHandle.sessionId {
+        tasks.remove(at: index)
+        break
+      }
+    }
     
   }
   
