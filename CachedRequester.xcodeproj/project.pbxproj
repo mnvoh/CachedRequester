@@ -14,6 +14,8 @@
 		11DC8DA71EA0FB880036F77E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11DC8DA51EA0FB880036F77E /* Quick.framework */; };
 		11DC8DA91EA1104A0036F77E /* Requester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC8DA81EA1104A0036F77E /* Requester.swift */; };
 		11DC8DAA1EA1104A0036F77E /* Requester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC8DA81EA1104A0036F77E /* Requester.swift */; };
+		11DC8DF31EA2275B0036F77E /* AutoPurgingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC8DF21EA2275B0036F77E /* AutoPurgingCache.swift */; };
+		11DC8DF41EA2275B0036F77E /* AutoPurgingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC8DF21EA2275B0036F77E /* AutoPurgingCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,7 @@
 		11DC8DA41EA0FB880036F77E /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = "Carthage/Checkouts/Nimble/build/Debug-iphoneos/Nimble.framework"; sourceTree = "<group>"; };
 		11DC8DA51EA0FB880036F77E /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "Carthage/Checkouts/Quick/build/Debug-iphoneos/Quick.framework"; sourceTree = "<group>"; };
 		11DC8DA81EA1104A0036F77E /* Requester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requester.swift; sourceTree = "<group>"; };
+		11DC8DF21EA2275B0036F77E /* AutoPurgingCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoPurgingCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +87,7 @@
 				11DC8D8C1EA0F3BF0036F77E /* CachedRequester.h */,
 				11DC8D8D1EA0F3BF0036F77E /* Info.plist */,
 				11DC8DA81EA1104A0036F77E /* Requester.swift */,
+				11DC8DF21EA2275B0036F77E /* AutoPurgingCache.swift */,
 			);
 			path = CachedRequester;
 			sourceTree = "<group>";
@@ -219,6 +223,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11DC8DF31EA2275B0036F77E /* AutoPurgingCache.swift in Sources */,
 				11DC8DA91EA1104A0036F77E /* Requester.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,6 +234,7 @@
 			files = (
 				11DC8DAA1EA1104A0036F77E /* Requester.swift in Sources */,
 				11DC8D981EA0F3C00036F77E /* CachedRequesterTests.swift in Sources */,
+				11DC8DF41EA2275B0036F77E /* AutoPurgingCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
