@@ -196,7 +196,11 @@ open class Requester {
       
   }
   
-  
+  /// This function gets called when the first response is received from the server
+  ///
+  /// - parameter dataTask:             The `URLSessionDataTask` of the request
+  /// - parameter contentLength:        The total expected length of the resource
+  /// - parameter completionHandler:    `ResponseDisposition` completion handler
   open func responseReceived(_ dataTask: URLSessionDataTask, _ contentLength: UInt,
                              _ completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
     
@@ -211,6 +215,11 @@ open class Requester {
     
   }
   
+  /// This function is called when data is received. It's called periodically so
+  /// we can calculate the progress of the request here.
+  ///
+  /// - parameter dataTask:           The `URLSessionDataTask` of the request
+  /// - parameter data:               The data received
   open func dataReceived(_ dataTask: URLSessionDataTask, _ data: Data) {
     
     guard let requestHandle = requestHandle(from: dataTask) else {
@@ -221,7 +230,7 @@ open class Requester {
     requestHandle.data.append(data)
     
     let currentSize = requestHandle.data.count
-    let progress = Double(currentSize) / Double(requestHandle.totalSize)
+    let progress = requestHandle.totalSize > 0 ? Double(currentSize) / Double(requestHandle.totalSize) : 0
     
     // call the progress handler on the main queue
     DispatchQueue.main.async {
@@ -230,6 +239,10 @@ open class Requester {
     
   }
   
+  /// This function is called when the request is finished, either successfully, or it has failed.
+  /// 
+  /// - parameter dataTask:             The `URLSessionDataTask` of the request
+  /// - parameter error:                In case the request has failed `error` is not nil and contains an error description
   open func requestCompleted(_ dataTask: URLSessionDataTask, _ error: Error?) {
     
     guard let requestHandle = requestHandle(from: dataTask) else {
