@@ -1,10 +1,10 @@
-#CachedRequester
+# CachedRequester
 
 Simple, light-weight network requester with auto-purging in-memory cache.
 
-##Installation
+## Installation
 
-###CocoaPods
+### CocoaPods
 
 In your project root:
 
@@ -25,7 +25,7 @@ $ pod install
 $ open PROJECT_NAME.xcworkspace
 ```
 
-###Carthage
+### Carthage
 
 Install [Carthage](https://github.com/Carthage/Carthage) if you haven't already.
 
