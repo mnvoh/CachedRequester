@@ -47,13 +47,12 @@ class AutoPurgingCache {
   /// The memory size to reach when purging least used data
   public var memorySizeAfterPurge: Int
   
+  /// The current size of the cache
+  public private(set) var cacheSize: Int = 0
   
   /// The Cache
   private var cache = [String: CacheItem]()
-  
-  /// The current size of the cache
-  private var cacheSize: Int = 0
-  
+
   
   // MARK: Initialization
   
