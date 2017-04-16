@@ -1,9 +1,11 @@
 #CachedRequester
+
 Simple, light-weight network requester with auto-purging in-memory cache.
 
 ##Installation
 
 ###CocoaPods
+
 In your project root:
 
 ```
@@ -24,6 +26,7 @@ $ open PROJECT_NAME.xcworkspace
 ```
 
 ###Carthage
+
 Install [Carthage](https://github.com/Carthage/Carthage) if you haven't already.
 
 Create a `Cartfile` in your project root with the cart info
