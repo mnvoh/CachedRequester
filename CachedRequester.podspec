@@ -10,5 +10,5 @@ Pod::Spec.new do |spec|
   spec.platform = :ios, "9.1"
   spec.requires_arc = true
   spec.source = { git: "https://github.com/mnvoh/CachedRequester.git", tag: "v#{spec.version}", submodules: true }
-  spec.source_files = "CachedRequester/**/*.{h,swift}"
+  spec.source_files = "CachedRequester/*.{h,swift}"
 end
