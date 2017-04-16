@@ -7,7 +7,7 @@ Pod::Spec.new do |spec|
   spec.authors = { "Milad Nozari" => 'mnvoh90@gmail.com' }
   spec.social_media_url = "https://twitter.com/mnvoh"
 
-  spec.platform = :ios, "9.1"
+  spec.ios.deployment_target = '8.0'
   spec.requires_arc = true
   spec.source = { git: "https://github.com/mnvoh/CachedRequester.git", tag: "v#{spec.version}" }
   spec.source_files = "CachedRequester/*.{h,swift}"
