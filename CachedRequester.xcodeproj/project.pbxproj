@@ -10,8 +10,6 @@
 		11DC8D931EA0F3C00036F77E /* CachedRequester.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11DC8D891EA0F3BF0036F77E /* CachedRequester.framework */; };
 		11DC8D981EA0F3C00036F77E /* CachedRequesterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC8D971EA0F3C00036F77E /* CachedRequesterTests.swift */; };
 		11DC8D9A1EA0F3C00036F77E /* CachedRequester.h in Headers */ = {isa = PBXBuildFile; fileRef = 11DC8D8C1EA0F3BF0036F77E /* CachedRequester.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		11DC8DA61EA0FB880036F77E /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11DC8DA41EA0FB880036F77E /* Nimble.framework */; };
-		11DC8DA71EA0FB880036F77E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11DC8DA51EA0FB880036F77E /* Quick.framework */; };
 		11DC8DA91EA1104A0036F77E /* Requester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC8DA81EA1104A0036F77E /* Requester.swift */; };
 		11DC8DAA1EA1104A0036F77E /* Requester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC8DA81EA1104A0036F77E /* Requester.swift */; };
 		11DC8DF31EA2275B0036F77E /* AutoPurgingCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC8DF21EA2275B0036F77E /* AutoPurgingCache.swift */; };
@@ -46,8 +44,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11DC8DA61EA0FB880036F77E /* Nimble.framework in Frameworks */,
-				11DC8DA71EA0FB880036F77E /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
