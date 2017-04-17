@@ -369,15 +369,16 @@ class RequesterURLSessionDataDelegate: NSObject, URLSessionDataDelegate {
   public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse,
                          completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
     
-    if let responseRecieved = self.responseReceived {
-      responseRecieved(dataTask, UInt(response.expectedContentLength), completionHandler)
+    if let responseRecieved = responseReceived {
+      let contentLength = response.expectedContentLength
+      responseRecieved(dataTask, UInt(contentLength > 0 ? contentLength : 0), completionHandler)
     }
     
   }
   
   public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
     
-    if let dataReceived = self.dataReceived {
+    if let dataReceived = dataReceived {
       dataReceived(dataTask, data)
     }
     
@@ -385,7 +386,7 @@ class RequesterURLSessionDataDelegate: NSObject, URLSessionDataDelegate {
   
   public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
     
-    if let completionHandler = self.completionHandler, let dataTask = task as? URLSessionDataTask {
+    if let completionHandler = completionHandler, let dataTask = task as? URLSessionDataTask {
       completionHandler(dataTask, error)
     }
     
